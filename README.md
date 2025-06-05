@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 Guestbook
+A simple full-stack guestbook built with Next.js, TypeScript, Prisma, and Tailwind CSS.
 
-## Getting Started
-
-First, run the development server:
-
+## 🚀 How to Run
 ```bash
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000/guestbook
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚖️ Trade-offs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Styling is kept inline and minimal, there is no abstract design system.
 
-## Learn More
+zod validation is defined directly in the API route instead of a shared DAO layer.
 
-To learn more about Next.js, take a look at the following resources:
+No reusable guest model/types across client/server.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ What I’d Add Next
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A guest DAO: encapsulate validation (zod), database access (prisma), and types (TypeScript) in one place.
 
-## Deploy on Vercel
+Move form schema/types to shared files for better reusability.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a basic styling abstraction, with a playground page with most reused components and variations for each one.
