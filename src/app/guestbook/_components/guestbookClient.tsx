@@ -17,20 +17,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-type FormData = {
-  name: string;
-  message: string;
-  hide: boolean;
-};
-
 export default function GuestbookClient() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
+  type FormData = {
+    name: string;
+    message: string;
+    hide: boolean;
+  };
+
   const form = useForm<FormData>({
     defaultValues: { name: "", message: "", hide: false },
   });
+
+  type ErrorResponse = { error?: string };
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -43,17 +45,18 @@ export default function GuestbookClient() {
         body: JSON.stringify(data),
       });
 
-      const json = await res.json().catch(() => ({} as any));
+      const json = (await res.json().catch(() => ({}))) as ErrorResponse;
+
       if (!res.ok) {
-        throw new Error((json as any).error || "Submission failed");
+        throw new Error(json.error || "Submission failed");
       }
 
       form.reset();
-      // This will cause `app/guestbook/page.tsx` to re‐fetch on the server
       router.refresh();
-    } catch (err: any) {
-      console.error(err);
-      setServerError(err.message || "Something went wrong");
+    } catch (err) {
+      const error = err as Error;
+      console.error(error);
+      setServerError(error.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
