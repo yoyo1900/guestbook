@@ -1,12 +1,13 @@
+// components/GuestbookClient.tsx
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormField,
@@ -23,9 +24,9 @@ type FormData = {
 };
 
 export default function GuestbookClient() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const form = useForm<FormData>({
     defaultValues: { name: "", message: "", hide: false },
@@ -34,7 +35,6 @@ export default function GuestbookClient() {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     setServerError(null);
-    setSuccessMsg(null);
 
     try {
       const res = await fetch("/api/guestbook", {
@@ -43,17 +43,14 @@ export default function GuestbookClient() {
         body: JSON.stringify(data),
       });
 
+      const json = await res.json().catch(() => ({} as any));
       if (!res.ok) {
-        const jsonErr = await res.json().catch(() => ({}));
-        throw new Error(
-          (jsonErr as any).error || "Failed to submit. Try again."
-        );
+        throw new Error((json as any).error || "Submission failed");
       }
 
-      // Optionally read returned entry or just check success
-      const json = await res.json();
-      setSuccessMsg("Your entry was submitted!");
       form.reset();
+      // This will cause `app/guestbook/page.tsx` to re‐fetch on the server
+      router.refresh();
     } catch (err: any) {
       console.error(err);
       setServerError(err.message || "Something went wrong");
@@ -117,9 +114,6 @@ export default function GuestbookClient() {
 
         {serverError && (
           <p className="text-sm text-red-600">{serverError}</p>
-        )}
-        {successMsg && (
-          <p className="text-sm text-green-600">{successMsg}</p>
         )}
 
         <Button type="submit" disabled={loading} className="cursor-pointer">
