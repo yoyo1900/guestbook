@@ -7,6 +7,7 @@ npm install
 npx prisma generate
 npx prisma migrate dev --name init
 npm run dev
+npx prisma studio   // to check database entries
 ```
 
 Visit http://localhost:3000/guestbook
