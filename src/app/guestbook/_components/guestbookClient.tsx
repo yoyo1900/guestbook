@@ -63,7 +63,7 @@ export default function GuestbookClient() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 max-w-md w-full"
+        className="space-y-4 w-full"
       >
         <FormField
           control={form.control}
@@ -73,7 +73,7 @@ export default function GuestbookClient() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Your name" />
+                <Input {...field} placeholder="e.g. De Gregori" className="hover:border-gray-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +88,7 @@ export default function GuestbookClient() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea {...field} placeholder="Your message" />
+                <Textarea {...field} placeholder="e.g. I'm pleased to invite you" className="hover:border-gray-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +99,7 @@ export default function GuestbookClient() {
           control={form.control}
           name="hide"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center gap-2 space-y-0">
+            <FormItem className="flex flex-row items-center gap-2 space-y-0" >
               <FormControl>
                 <Switch
                   checked={field.value}
@@ -107,7 +107,7 @@ export default function GuestbookClient() {
                   className="cursor-pointer"
                 />
               </FormControl>
-              <FormLabel>Hide my entry</FormLabel>
+              <FormLabel className="cursor-pointer">Hide</FormLabel>
             </FormItem>
           )}
         />
@@ -117,7 +117,7 @@ export default function GuestbookClient() {
         )}
 
         <Button type="submit" disabled={loading} className="cursor-pointer">
-          {loading ? "Submitting…" : "Sign Guestbook"}
+          {loading ? "Adding..." : "Add Guest"}
         </Button>
       </form>
     </Form>

@@ -21,15 +21,16 @@ export default async function GuestbookList() {
     if (fetchError) {
         return (
             <main className="max-w-2xl mx-auto p-6">
-                <h1 className="text-3xl font-semibold mb-6">Guestbook Entries</h1>
+                <h1 className="text-2xl font-semibold mb-6">Guests</h1>
                 <p className="text-red-600">Unable to load entries. Please try again later.</p>
             </main>
         );
     }
 
     return (
-        <main className="max-w-2xl mx-auto p-6">
-            <h1 className="text-3xl font-semibold mb-6">Guestbook Entries</h1>
+        <div className="max-w-2xl mx-auto p-6">
+            <div className="mt-4 mb-4 h-[1px] w-full bg-gray-300"></div>
+            <h1 className="text-2xl font-semibold mt-6 mb-6">Guests</h1>
             {entries.length === 0 ? (
                 <p className="text-gray-600">No entries yet.</p>
             ) : (
@@ -45,6 +46,6 @@ export default async function GuestbookList() {
                     ))}
                 </ul>
             )}
-        </main>
+        </div>
     );
 }
